@@ -206,7 +206,8 @@ if __name__ == '__main__':
 
         # Obtiene las predicciones
         gnn_pred = prob2pred(gnn_prob_arr, 0.5)
-
+	
+	# Separa los scores por clases
         list_classes = [[], []]
         for idx, class_ in enumerate(batch_label):
             list_classes[class_].append(scores[idx][class_].detach().numpy().tolist())
@@ -214,9 +215,11 @@ if __name__ == '__main__':
 
 
     # ------ Media y desviación estándar ------
+    # Scores de cada clase
     arr_0 = np.array(abs(list_classes[0] - np.ones(len(list_classes[0]))))
     arr_1 = np.array(list_classes[1])
 
+    # Media y desviación típica de cada clase
     mean_0 = arr_0.mean()
     std_0 = arr_0.std()
 
@@ -233,13 +236,14 @@ if __name__ == '__main__':
     variance_0 = std_0 ** 2
     variance_1 = std_1 ** 2
 
-    # x = np.linspace(0, 1, 1000)
-    # plt.plot(x, stats.norm.pdf(x, mean_0, variance_0), label="No Fraudulento")
-    # plt.plot(x, stats.norm.pdf(x, mean_1, variance_1), label="Fraudulento")
+    x = np.linspace(0, 1, 1000)
+    plt.title("Media y desviación estándar")
+    plt.plot(x, stats.norm.pdf(x, mean_0, variance_0), label="No Fraudulento")
+    plt.plot(x, stats.norm.pdf(x, mean_1, variance_1), label="Fraudulento")
 
-    # plt.legend()
-    # plt.show()
-
+    plt.legend()
+    plt.show()
+    
 
     # ------ Entropía --------
     # Selecciona todos los nodos y etiquetas dentro del batch
@@ -270,19 +274,19 @@ if __name__ == '__main__':
 
 
 
-    # fig, axs = plt.subplots(2)
-    # fig.suptitle('Histogramas de entropía')
-    # axs[0].hist(entropy_1_vec.detach().numpy(), 10, color='r', label="Fraudulento")
-    # axs[1].hist(entropy_0_vec.detach().numpy(), 10, color='g', label="No Fraudulento")
-    # axs[0].legend()
-    # axs[1].legend()
-    # plt.show()
+    fig, axs = plt.subplots(2)
+    fig.suptitle('Histogramas de entropía')
+    axs[0].hist(entropy_1_vec.detach().numpy(), 10, color='r', label="Fraudulento")
+    axs[1].hist(entropy_0_vec.detach().numpy(), 10, color='g', label="No Fraudulento")
+    axs[0].legend()
+    axs[1].legend()
+    plt.show()
 
-    # x = np.linspace(0, 1, 1000)
-    # plt.hist(entropy_vec.detach().numpy(), 10, color='r', label="Entropía")
+    x = np.linspace(0, 1, 1000)
+    plt.hist(entropy_vec.detach().numpy(), 10, color='r', label="Entropía")
 
-    # plt.legend()
-    # plt.show()
+    plt.legend()
+    plt.show()
 
 
     # ------ Intervalos de confianza ------
@@ -317,6 +321,7 @@ if __name__ == '__main__':
 
 
     fig, axs = plt.subplots(2)
+    fig.suptitle("Intervalos de confianza")
     axs[0].boxplot(list_classes[0], labels="F", autorange=True)
     axs[1].boxplot(list_classes[1], labels="T", autorange=True)
     plt.show()
