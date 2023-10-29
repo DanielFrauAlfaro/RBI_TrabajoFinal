@@ -6,7 +6,7 @@ Final project of "Razonamiento Bajo Incertidumbre" from AI Master in UA (Univers
 
 ## Execution
 
-The executable file *uncertainty.py* from this repository performs the uncertainty estimation from the PC-GNN arquitecture. This file must be placed in the *main* folder of the original repository, alongsied *main.py* and executed with:
+Move the *data* folder from the original respoitory (https://github.com/PonderLY/PC-GNN/tree/main) to the *PC-GNN* folder in this project. Then, execute the followinf file in the *PC-GNN* folder in this repository by:
 
 ```sh
 python3 uncertainty.py --config ./config/pcgnn_yelpchi.yml
